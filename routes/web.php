@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/login');
+
+Auth::routes();
+Route::redirect('/home', '/products')->name('home');
+
+Route::resource('/products', 'ProductController', ['except' => ['destroy']])->middleware('auth');
+Route::get('/products/{product}/delete', 'ProductController@destroy')->name('products.destroy')->middleware('auth');
